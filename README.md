@@ -2,6 +2,8 @@
 
 Repository to work on energy API found here https://consumerdatastandardsaustralia.github.io/standards/#energy-apis
 
+NOTE: Use the `.json` version of the OpenAPI spec and not the `.yaml`
+
 ## Building
 
 ### go-gin-server
