@@ -6,10 +6,13 @@ NOTE: Use the `.json` version of the OpenAPI spec and not the `.yaml`
 
 ## Building
 
-### go-gin-server
+### go-server
+
+When using Docker to run openapi-generator the generated source code are copied as `root` into local drive. Due to this issue decided to just compiled the code locally
+and run it using `java -jar`
 
 ```
-java -jar /home/nanik/GolandProjects/openapi-generator/./modules/openapi-generator-cli/target/openapi-generator-cli.jar generate   \ 
+java -jar /home/nanik/GolandProjects/openapi-generator/modules/openapi-generator-cli/target/openapi-generator-cli.jar generate   \ 
  -i ./cdsenergy.json     -g go-server  -o $PWD/pkg  \
  -p serverPort=8888 -p packageName=energyserver  -p router=chi -p onlyInterfaces=false \
  -p sourceFolder=pkg --git-repo-id cdsenergy/v1 --git-user-id nanikjava  \
