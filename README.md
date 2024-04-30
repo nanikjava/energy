@@ -15,6 +15,15 @@ java -jar /home/nanik/GolandProjects/openapi-generator/./modules/openapi-generat
  -p sourceFolder=pkg --git-repo-id cdsenergy/v1 --git-user-id nanikjava  \
 ```
 
+After generation the code remove the following files from `pkg/` folder
+
+```
+pkg/.openapi-generator-ignore
+pkg/Dockerfile
+pkg/go.mod
+pkg/main.go
+pkg/README.md
+```
 
 ### Issues
 
