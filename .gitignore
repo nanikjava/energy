@@ -1,5 +1,3 @@
 .idea/
 openapitools.json
-pkg/Dockerfile
-pkg/go.mod
-pkg/main.go
+pkg/
