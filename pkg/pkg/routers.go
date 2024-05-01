@@ -14,8 +14,7 @@ import (
 	"encoding/json"
 	"errors"
 	"time"
-	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
+	"github.com/gorilla/mux"
 	"io"
 	"mime/multipart"
 	"net/http"
@@ -45,14 +44,19 @@ const errMsgMinValueConstraint = "provided parameter is not respecting minimum v
 const errMsgMaxValueConstraint = "provided parameter is not respecting maximum value constraint"
 
 // NewRouter creates a new router for any number of api routers
-func NewRouter(routers ...Router) chi.Router {
-	router := chi.NewRouter()
-	router.Use(middleware.Logger)
+func NewRouter(routers ...Router) *mux.Router {
+	router := mux.NewRouter().StrictSlash(true)
 	for _, api := range routers {
-		for _, route := range api.Routes() {
+		for name, route := range api.Routes() {
 			var handler http.Handler
 			handler = route.HandlerFunc
-			router.Method(route.Method, route.Pattern, handler)
+			handler = Logger(handler, name)
+
+			router.
+				Methods(route.Method).
+				Path(route.Pattern).
+				Name(name).
+				Handler(handler)
 		}
 	}
 

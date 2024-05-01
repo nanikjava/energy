@@ -15,7 +15,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/go-chi/chi/v5"
+	"github.com/gorilla/mux"
 )
 
 // DefaultAPIController binds http requests to an api service and writes the service results to the http response
@@ -171,7 +171,8 @@ func (c *DefaultAPIController) Routes() Routes {
 
 // GetAccount - Get Energy Account Detail
 func (c *DefaultAPIController) GetAccount(w http.ResponseWriter, r *http.Request) {
-	accountIdParam := chi.URLParam(r, "accountId")
+	params := mux.Vars(r)
+	accountIdParam := params["accountId"]
 	if accountIdParam == "" {
 		c.errorHandler(w, r, &RequiredError{"accountId"}, nil)
 		return
@@ -194,7 +195,8 @@ func (c *DefaultAPIController) GetAccount(w http.ResponseWriter, r *http.Request
 
 // GetBalanceForAccount - Get Balance For Energy Account
 func (c *DefaultAPIController) GetBalanceForAccount(w http.ResponseWriter, r *http.Request) {
-	accountIdParam := chi.URLParam(r, "accountId")
+	params := mux.Vars(r)
+	accountIdParam := params["accountId"]
 	if accountIdParam == "" {
 		c.errorHandler(w, r, &RequiredError{"accountId"}, nil)
 		return
@@ -217,12 +219,13 @@ func (c *DefaultAPIController) GetBalanceForAccount(w http.ResponseWriter, r *ht
 
 // GetBillingForAccount - Get Billing For Account
 func (c *DefaultAPIController) GetBillingForAccount(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
 	query, err := parseQuery(r.URL.RawQuery)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	accountIdParam := chi.URLParam(r, "accountId")
+	accountIdParam := params["accountId"]
 	if accountIdParam == "" {
 		c.errorHandler(w, r, &RequiredError{"accountId"}, nil)
 		return
@@ -287,7 +290,8 @@ func (c *DefaultAPIController) GetBillingForAccount(w http.ResponseWriter, r *ht
 
 // GetConcessions - Get Concessions
 func (c *DefaultAPIController) GetConcessions(w http.ResponseWriter, r *http.Request) {
-	accountIdParam := chi.URLParam(r, "accountId")
+	params := mux.Vars(r)
+	accountIdParam := params["accountId"]
 	if accountIdParam == "" {
 		c.errorHandler(w, r, &RequiredError{"accountId"}, nil)
 		return
@@ -310,7 +314,8 @@ func (c *DefaultAPIController) GetConcessions(w http.ResponseWriter, r *http.Req
 
 // GetDERForServicePoint - Get DER For Service Point
 func (c *DefaultAPIController) GetDERForServicePoint(w http.ResponseWriter, r *http.Request) {
-	servicePointIdParam := chi.URLParam(r, "servicePointId")
+	params := mux.Vars(r)
+	servicePointIdParam := params["servicePointId"]
 	if servicePointIdParam == "" {
 		c.errorHandler(w, r, &RequiredError{"servicePointId"}, nil)
 		return
@@ -333,12 +338,13 @@ func (c *DefaultAPIController) GetDERForServicePoint(w http.ResponseWriter, r *h
 
 // GetInvoicesForAccount - Get Invoices For Account
 func (c *DefaultAPIController) GetInvoicesForAccount(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
 	query, err := parseQuery(r.URL.RawQuery)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	accountIdParam := chi.URLParam(r, "accountId")
+	accountIdParam := params["accountId"]
 	if accountIdParam == "" {
 		c.errorHandler(w, r, &RequiredError{"accountId"}, nil)
 		return
@@ -403,7 +409,8 @@ func (c *DefaultAPIController) GetInvoicesForAccount(w http.ResponseWriter, r *h
 
 // GetPaymentSchedule - Get Agreed Payment Schedule
 func (c *DefaultAPIController) GetPaymentSchedule(w http.ResponseWriter, r *http.Request) {
-	accountIdParam := chi.URLParam(r, "accountId")
+	params := mux.Vars(r)
+	accountIdParam := params["accountId"]
 	if accountIdParam == "" {
 		c.errorHandler(w, r, &RequiredError{"accountId"}, nil)
 		return
@@ -426,7 +433,8 @@ func (c *DefaultAPIController) GetPaymentSchedule(w http.ResponseWriter, r *http
 
 // GetPlan - Get Generic Plan Detail
 func (c *DefaultAPIController) GetPlan(w http.ResponseWriter, r *http.Request) {
-	planIdParam := chi.URLParam(r, "planId")
+	params := mux.Vars(r)
+	planIdParam := params["planId"]
 	if planIdParam == "" {
 		c.errorHandler(w, r, &RequiredError{"planId"}, nil)
 		return
@@ -445,7 +453,8 @@ func (c *DefaultAPIController) GetPlan(w http.ResponseWriter, r *http.Request) {
 
 // GetServicePoint - Get Service Point Detail
 func (c *DefaultAPIController) GetServicePoint(w http.ResponseWriter, r *http.Request) {
-	servicePointIdParam := chi.URLParam(r, "servicePointId")
+	params := mux.Vars(r)
+	servicePointIdParam := params["servicePointId"]
 	if servicePointIdParam == "" {
 		c.errorHandler(w, r, &RequiredError{"servicePointId"}, nil)
 		return
@@ -468,12 +477,13 @@ func (c *DefaultAPIController) GetServicePoint(w http.ResponseWriter, r *http.Re
 
 // GetUsageForServicePoint - Get Usage For Service Point
 func (c *DefaultAPIController) GetUsageForServicePoint(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
 	query, err := parseQuery(r.URL.RawQuery)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	servicePointIdParam := chi.URLParam(r, "servicePointId")
+	servicePointIdParam := params["servicePointId"]
 	if servicePointIdParam == "" {
 		c.errorHandler(w, r, &RequiredError{"servicePointId"}, nil)
 		return
