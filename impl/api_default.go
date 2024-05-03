@@ -10,124 +10,341 @@
 package impl
 
 import (
-	"github.com/gin-gonic/gin"
+	"context"
+	"fmt"
+	"github.com/nanikjava/cdsenergy/v1/storage"
 	"net/http"
 	"runtime"
+
+	gofakeit "github.com/brianvoe/gofakeit/v6"
+	pkg "github.com/nanikjava/cdsenergy/v1/pkg/pkg"
 )
 
-type DefaultAPI struct{}
-
-func (DefaultAPI) GetAccount(c *gin.Context) {
-	returnValue(c, getCurrentFunctionName())
+type APIService struct {
+	b *storage.RedisBackend
 }
 
-func (DefaultAPI) GetBalanceForAccount(c *gin.Context) {
-	returnValue(c, getCurrentFunctionName())
+func NewAPIService(backend *storage.RedisBackend) *APIService {
+	return &APIService{b: backend}
 }
 
-func (DefaultAPI) GetBillingForAccount(c *gin.Context) {
-	//TODO implement me
-	returnValue(c, getCurrentFunctionName())
+// GetAccount - Get Energy Account Detail
+func (s *APIService) GetAccount(ctx context.Context, accountId string, xV string, xMinV string, xFapiInteractionId string, xFapiAuthDate string, xFapiCustomerIpAddress string, xCdsClientHeaders string) (pkg.ImplResponse, error) {
+	r := &pkg.EnergyAccountDetailResponseV4{}
+	err := gofakeit.Struct(&r)
+
+	if err != nil {
+		return returnValue(getCurrentFunctionName())
+	}
+
+	c, err := s.b.Client.Get(context.TODO(), "test").Result()
+	if err != nil {
+		return pkg.Response(500, c), nil
+	}
+
+	r.Data.DisplayName = c
+
+	return pkg.Response(200, r), nil
+
 }
 
-func (DefaultAPI) GetConcessions(c *gin.Context) {
-	//TODO implement me
-	returnValue(c, getCurrentFunctionName())
+// GetBalanceForAccount - Get Balance For Energy Account
+func (s *APIService) GetBalanceForAccount(ctx context.Context, accountId string, xV string, xMinV string, xFapiInteractionId string, xFapiAuthDate string, xFapiCustomerIpAddress string, xCdsClientHeaders string) (pkg.ImplResponse, error) {
+	r := &pkg.EnergyBalanceResponse{}
+	err := gofakeit.Struct(&r)
+
+	if err != nil {
+		return returnValue(getCurrentFunctionName())
+	}
+
+	return pkg.Response(200, r), nil
+
 }
 
-func (DefaultAPI) GetDERForServicePoint(c *gin.Context) {
-	//TODO implement me
-	returnValue(c, getCurrentFunctionName())
+// GetBillingForAccount - Get Billing For Account
+func (s *APIService) GetBillingForAccount(ctx context.Context, accountId string, xV string, newestTime string, oldestTime string, page int32, pageSize int32, xMinV string, xFapiInteractionId string, xFapiAuthDate string, xFapiCustomerIpAddress string, xCdsClientHeaders string) (pkg.ImplResponse, error) {
+	// return Response(200, EnergyBillingListResponseV3{}), nil
+	r := &pkg.EnergyBillingListResponseV3{}
+	err := gofakeit.Struct(&r)
+
+	if err != nil {
+		// return pkg.Response(406, pkg.ResponseErrorListV2{}), nil
+		return returnValue(getCurrentFunctionName())
+	}
+
+	return pkg.Response(200, r), nil
 }
 
-func (DefaultAPI) GetInvoicesForAccount(c *gin.Context) {
-	//TODO implement me
-	returnValue(c, getCurrentFunctionName())
+// GetConcessions - Get Concessions
+func (s *APIService) GetConcessions(ctx context.Context, accountId string, xV string, xMinV string, xFapiInteractionId string, xFapiAuthDate string, xFapiCustomerIpAddress string, xCdsClientHeaders string) (pkg.ImplResponse, error) {
+	// return Response(200, EnergyConcessionsResponse{}), nil
+	r := &pkg.EnergyConcessionsResponse{}
+	err := gofakeit.Struct(&r)
+
+	if err != nil {
+		// return pkg.Response(406, pkg.ResponseErrorListV2{}), nil
+		return returnValue(getCurrentFunctionName())
+	}
+
+	return pkg.Response(200, r), nil
 }
 
-func (DefaultAPI) GetPaymentSchedule(c *gin.Context) {
-	//TODO implement me
-	returnValue(c, getCurrentFunctionName())
+// GetDERForServicePoint - Get DER For Service Point
+func (s *APIService) GetDERForServicePoint(ctx context.Context, servicePointId string, xV string, xMinV string, xFapiInteractionId string, xFapiAuthDate string, xFapiCustomerIpAddress string, xCdsClientHeaders string) (pkg.ImplResponse, error) {
+	// return Response(200, EnergyDerDetailResponse{}), nil
+	r := &pkg.EnergyDerDetailResponse{}
+	err := gofakeit.Struct(&r)
+
+	if err != nil {
+		// return pkg.Response(406, pkg.ResponseErrorListV2{}), nil
+		return returnValue(getCurrentFunctionName())
+	}
+
+	return pkg.Response(200, r), nil
 }
 
-func (DefaultAPI) GetPlan(c *gin.Context) {
-	//TODO implement me
-	returnValue(c, getCurrentFunctionName())
+// GetInvoicesForAccount - Get Invoices For Account
+func (s *APIService) GetInvoicesForAccount(ctx context.Context, accountId string, xV string, newestDate string, oldestDate string, page int32, pageSize int32, xMinV string, xFapiInteractionId string, xFapiAuthDate string, xFapiCustomerIpAddress string, xCdsClientHeaders string) (pkg.ImplResponse, error) {
+	// return Response(200, EnergyInvoiceListResponse{}), nil
+	r := &pkg.EnergyInvoiceListResponse{}
+	err := gofakeit.Struct(&r)
+
+	if err != nil {
+		// return pkg.Response(406, pkg.ResponseErrorListV2{}), nil
+		return returnValue(getCurrentFunctionName())
+	}
+
+	return pkg.Response(200, r), nil
 }
 
-func (DefaultAPI) GetServicePoint(c *gin.Context) {
-	//TODO implement me
-	returnValue(c, getCurrentFunctionName())
+// GetPaymentSchedule - Get Agreed Payment Schedule
+func (s *APIService) GetPaymentSchedule(ctx context.Context, accountId string, xV string, xMinV string, xFapiInteractionId string, xFapiAuthDate string, xFapiCustomerIpAddress string, xCdsClientHeaders string) (pkg.ImplResponse, error) {
+	// return Response(200, EnergyPaymentScheduleResponse{}), nil
+	r := &pkg.EnergyPaymentScheduleResponse{}
+	err := gofakeit.Struct(&r)
+
+	if err != nil {
+		// return pkg.Response(406, pkg.ResponseErrorListV2{}), nil
+		return returnValue(getCurrentFunctionName())
+	}
+
+	return pkg.Response(200, r), nil
 }
 
-func (DefaultAPI) GetUsageForServicePoint(c *gin.Context) {
-	//TODO implement me
-	returnValue(c, getCurrentFunctionName())
+// GetPlan - Get Generic Plan Detail
+func (s *APIService) GetPlan(ctx context.Context, planId string, xV string, xMinV string) (pkg.ImplResponse, error) {
+	// return Response(200, EnergyPlanResponseV3{}), nil
+	r := &pkg.EnergyPlanResponseV3{}
+	err := gofakeit.Struct(&r)
+
+	if err != nil {
+		// return pkg.Response(406, pkg.ResponseErrorListV2{}), nil
+		return returnValue(getCurrentFunctionName())
+	}
+
+	return pkg.Response(200, r), nil
 }
 
-func (DefaultAPI) ListAccounts(c *gin.Context) {
-	//TODO implement me
-	returnValue(c, getCurrentFunctionName())
+// GetServicePoint - Get Service Point Detail
+func (s *APIService) GetServicePoint(ctx context.Context, servicePointId string, xV string, xMinV string, xFapiInteractionId string, xFapiAuthDate string, xFapiCustomerIpAddress string, xCdsClientHeaders string) (pkg.ImplResponse, error) {
+	// return Response(200, EnergyServicePointDetailResponse{}), nil
+	r := &pkg.EnergyServicePointDetailResponse{}
+	err := gofakeit.Struct(&r)
+
+	if err != nil {
+		// return pkg.Response(406, pkg.ResponseErrorListV2{}), nil
+		return returnValue(getCurrentFunctionName())
+	}
+
+	return pkg.Response(200, r), nil
 }
 
-func (DefaultAPI) ListBalancesBulk(c *gin.Context) {
-	returnValue(c, getCurrentFunctionName())
+// GetUsageForServicePoint - Get Usage For Service Point
+func (s *APIService) GetUsageForServicePoint(ctx context.Context, servicePointId string, xV string, oldestDate string, newestDate string, intervalReads pkg.IntervalRead, page int32, pageSize int32, xMinV string, xFapiInteractionId string, xFapiAuthDate string, xFapiCustomerIpAddress string, xCdsClientHeaders string) (pkg.ImplResponse, error) {
+	// return Response(200, EnergyUsageListResponse{}), nil
+	r := &pkg.EnergyUsageListResponse{}
+	err := gofakeit.Struct(&r)
+
+	if err != nil {
+		// return pkg.Response(406, pkg.ResponseErrorListV2{}), nil
+		return returnValue(getCurrentFunctionName())
+	}
+
+	return pkg.Response(200, r), nil
 }
 
-func (DefaultAPI) ListBalancesForAccounts(c *gin.Context) {
-	//TODO implement me
-	returnValue(c, getCurrentFunctionName())
+// ListAccounts - Get Energy Accounts
+func (s *APIService) ListAccounts(ctx context.Context, xV string, openStatus pkg.State, page int32, pageSize int32, xMinV string, xFapiInteractionId string, xFapiAuthDate string, xFapiCustomerIpAddress string, xCdsClientHeaders string) (pkg.ImplResponse, error) {
+	// return Response(200, EnergyAccountListResponseV2{}), nil
+	r := &pkg.EnergyAccountListResponseV2{}
+	err := gofakeit.Struct(&r)
+
+	if err != nil {
+		// return pkg.Response(406, pkg.ResponseErrorListV2{}), nil
+		return returnValue(getCurrentFunctionName())
+	}
+
+	return pkg.Response(200, r), nil
 }
 
-func (DefaultAPI) ListBillingBulk(c *gin.Context) {
-	//TODO implement me
-	returnValue(c, getCurrentFunctionName())
+// ListBalancesBulk - Get Bulk Balances for Energy
+func (s *APIService) ListBalancesBulk(ctx context.Context, xV string, page int32, pageSize int32, xMinV string, xFapiInteractionId string, xFapiAuthDate string, xFapiCustomerIpAddress string, xCdsClientHeaders string) (pkg.ImplResponse, error) {
+	// return Response(200, EnergyBalanceListResponse{}), nil
+	r := &pkg.EnergyBalanceListResponse{}
+	err := gofakeit.Struct(&r)
+
+	if err != nil {
+		// return pkg.Response(406, pkg.ResponseErrorListV2{}), nil
+		return returnValue(getCurrentFunctionName())
+	}
+
+	return pkg.Response(200, r), nil
 }
 
-func (DefaultAPI) ListBillingForAccounts(c *gin.Context) {
-	//TODO implement me
-	returnValue(c, getCurrentFunctionName())
+// ListBalancesForAccounts - Get Balances For Specific Energy Accounts
+func (s *APIService) ListBalancesForAccounts(ctx context.Context, xV string, requestAccountIdList pkg.RequestAccountIdList, page int32, pageSize int32, xMinV string, xFapiInteractionId string, xFapiAuthDate string, xFapiCustomerIpAddress string, xCdsClientHeaders string) (pkg.ImplResponse, error) {
+	// return Response(200, EnergyBalanceListResponse{}), nil
+	r := &pkg.EnergyBalanceListResponse{}
+	err := gofakeit.Struct(&r)
+
+	if err != nil {
+		// return pkg.Response(406, pkg.ResponseErrorListV2{}), nil
+		return returnValue(getCurrentFunctionName())
+	}
+
+	return pkg.Response(200, r), nil
 }
 
-func (DefaultAPI) ListDERBulk(c *gin.Context) {
-	//TODO implement me
-	returnValue(c, getCurrentFunctionName())
+// ListBillingBulk - Get Bulk Billing
+func (s *APIService) ListBillingBulk(ctx context.Context, xV string, newestTime string, oldestTime string, page int32, pageSize int32, xMinV string, xFapiInteractionId string, xFapiAuthDate string, xFapiCustomerIpAddress string, xCdsClientHeaders string) (pkg.ImplResponse, error) {
+	// return Response(200, EnergyBillingListResponseV3{}), nil
+	r := &pkg.EnergyBillingListResponseV3{}
+	err := gofakeit.Struct(&r)
+
+	if err != nil {
+		// return pkg.Response(406, pkg.ResponseErrorListV2{}), nil
+		return returnValue(getCurrentFunctionName())
+	}
+
+	return pkg.Response(200, r), nil
 }
 
-func (DefaultAPI) ListDERForServicePoints(c *gin.Context) {
-	//TODO implement me
-	returnValue(c, getCurrentFunctionName())
+// ListBillingForAccounts - Get Billing For Specific Accounts
+func (s *APIService) ListBillingForAccounts(ctx context.Context, xV string, requestAccountIdList pkg.RequestAccountIdList, newestTime string, oldestTime string, page int32, pageSize int32, xMinV string, xFapiInteractionId string, xFapiAuthDate string, xFapiCustomerIpAddress string, xCdsClientHeaders string) (pkg.ImplResponse, error) {
+	// return Response(200, EnergyBillingListResponseV3{}), nil
+	r := &pkg.EnergyBillingListResponseV3{}
+	err := gofakeit.Struct(&r)
+
+	if err != nil {
+		// return pkg.Response(406, pkg.ResponseErrorListV2{}), nil
+		return returnValue(getCurrentFunctionName())
+	}
+
+	return pkg.Response(200, r), nil
 }
 
-func (DefaultAPI) ListInvoicesBulk(c *gin.Context) {
-	//TODO implement me
-	returnValue(c, getCurrentFunctionName())
+// ListDERBulk - Get Bulk DER
+func (s *APIService) ListDERBulk(ctx context.Context, xV string, page int32, pageSize int32, xMinV string, xFapiInteractionId string, xFapiAuthDate string, xFapiCustomerIpAddress string, xCdsClientHeaders string) (pkg.ImplResponse, error) {
+	// return Response(200, EnergyDerListResponse{}), nil
+	r := &pkg.EnergyDerListResponse{}
+	err := gofakeit.Struct(&r)
+
+	if err != nil {
+		// return pkg.Response(406, pkg.ResponseErrorListV2{}), nil
+		return returnValue(getCurrentFunctionName())
+	}
+
+	return pkg.Response(200, r), nil
 }
 
-func (DefaultAPI) ListInvoicesForAccounts(c *gin.Context) {
-	//TODO implement me
-	returnValue(c, getCurrentFunctionName())
+// ListDERForServicePoints - Get DER For Specific Service Points
+func (s *APIService) ListDERForServicePoints(ctx context.Context, xV string, requestServicePointIdList pkg.RequestServicePointIdList, page int32, pageSize int32, xMinV string, xFapiInteractionId string, xFapiAuthDate string, xFapiCustomerIpAddress string, xCdsClientHeaders string) (pkg.ImplResponse, error) {
+	// return Response(200, EnergyDerListResponse{}), nil
+	r := &pkg.EnergyDerListResponse{}
+	err := gofakeit.Struct(&r)
+
+	if err != nil {
+		// return pkg.Response(406, pkg.ResponseErrorListV2{}), nil
+		return returnValue(getCurrentFunctionName())
+	}
+
+	return pkg.Response(200, r), nil
 }
 
-func (DefaultAPI) ListPlans(c *gin.Context) {
-	//TODO implement me
-	returnValue(c, getCurrentFunctionName())
+// ListInvoicesBulk - Get Bulk Invoices
+func (s *APIService) ListInvoicesBulk(ctx context.Context, xV string, newestDate string, oldestDate string, page int32, pageSize int32, xMinV string, xFapiInteractionId string, xFapiAuthDate string, xFapiCustomerIpAddress string, xCdsClientHeaders string) (pkg.ImplResponse, error) {
+	// return Response(200, EnergyInvoiceListResponse{}), nil
+	r := &pkg.EnergyInvoiceListResponse{}
+	err := gofakeit.Struct(&r)
+
+	if err != nil {
+		// return pkg.Response(406, pkg.ResponseErrorListV2{}), nil
+		return returnValue(getCurrentFunctionName())
+	}
+
+	return pkg.Response(200, r), nil
 }
 
-func (DefaultAPI) ListServicePoints(c *gin.Context) {
-	//TODO implement me
-	returnValue(c, getCurrentFunctionName())
+// ListInvoicesForAccounts - Get Invoices For Specific Accounts
+func (s *APIService) ListInvoicesForAccounts(ctx context.Context, xV string, requestAccountIdList pkg.RequestAccountIdList, newestDate string, oldestDate string, page int32, pageSize int32, xMinV string, xFapiInteractionId string, xFapiAuthDate string, xFapiCustomerIpAddress string, xCdsClientHeaders string) (pkg.ImplResponse, error) {
+	// return Response(200, EnergyInvoiceListResponse{}), nil
+	r := &pkg.EnergyInvoiceListResponse{}
+	err := gofakeit.Struct(&r)
+
+	if err != nil {
+		// return pkg.Response(406, pkg.ResponseErrorListV2{}), nil
+		return returnValue(getCurrentFunctionName())
+	}
+
+	return pkg.Response(200, r), nil
 }
 
-func (DefaultAPI) ListUsageBulk(c *gin.Context) {
-	//TODO implement me
-	returnValue(c, getCurrentFunctionName())
+// ListPlans - Get Generic Plans
+func (s *APIService) ListPlans(ctx context.Context, xV string, type_ pkg.ListPlanType, fuelType pkg.FuelType, effective pkg.Effective, updatedSince string, brand string, page int32, pageSize int32, xMinV string) (pkg.ImplResponse, error) {
+	// return Response(200, EnergyPlanListResponse{}), nil
+	r := &pkg.EnergyPlanListResponse{}
+	err := gofakeit.Struct(&r)
+
+	if err != nil {
+		// return pkg.Response(406, pkg.ResponseErrorListV2{}), nil
+		return returnValue(getCurrentFunctionName())
+	}
+
+	return pkg.Response(200, r), nil
 }
 
-func (DefaultAPI) ListUsageForServicePoints(c *gin.Context) {
-	//TODO implement me
-	functionName := getCurrentFunctionName()
-	c.JSON(http.StatusOK, gin.H{"message": functionName})
+// ListServicePoints - Get Service Points
+func (s *APIService) ListServicePoints(ctx context.Context, xV string, page int32, pageSize int32, xMinV string, xFapiInteractionId string, xFapiAuthDate string, xFapiCustomerIpAddress string, xCdsClientHeaders string) (pkg.ImplResponse, error) {
+	// return Response(200, EnergyServicePointListResponse{}), nil
+	r := &pkg.EnergyServicePointListResponse{}
+	err := gofakeit.Struct(&r)
+
+	if err != nil {
+		// return pkg.Response(406, pkg.ResponseErrorListV2{}), nil
+		return returnValue(getCurrentFunctionName())
+	}
+
+	return pkg.Response(200, r), nil
+}
+
+// ListUsageBulk - Get Bulk Usage
+func (s *APIService) ListUsageBulk(ctx context.Context, xV string, intervalReads pkg.IntervalRead, oldestDate string, newestDate string, page int32, pageSize int32, xMinV string, xFapiInteractionId string, xFapiAuthDate string, xFapiCustomerIpAddress string, xCdsClientHeaders string) (pkg.ImplResponse, error) {
+	// return Response(200, EnergyUsageListResponse{}), nil
+	r := &pkg.EnergyUsageListResponse{}
+	err := gofakeit.Struct(&r)
+
+	if err != nil {
+		// return pkg.Response(406, pkg.ResponseErrorListV2{}), nil
+		return returnValue(getCurrentFunctionName())
+	}
+
+	return pkg.Response(200, r), nil
+}
+
+// ListUsageForServicePoints - Get Usage For Specific Service Points
+func (s *APIService) ListUsageForServicePoints(ctx context.Context, xV string, requestServicePointIdList pkg.RequestServicePointIdList, oldestDate string, newestDate string, intervalReads pkg.IntervalRead, page int32, pageSize int32, xMinV string, xFapiInteractionId string, xFapiAuthDate string, xFapiCustomerIpAddress string, xCdsClientHeaders string) (pkg.ImplResponse, error) {
+	// return Response(200, EnergyUsageListResponse{}), nil
+	return returnValue(getCurrentFunctionName())
 }
 
 func getCurrentFunctionName() string {
@@ -135,6 +352,6 @@ func getCurrentFunctionName() string {
 	return runtime.FuncForPC(pc).Name()
 }
 
-func returnValue(c *gin.Context, functionName string) {
-	c.String(http.StatusOK, functionName)
+func returnValue(functionName string) (pkg.ImplResponse, error) {
+	return pkg.Response(http.StatusNotImplemented, nil), fmt.Errorf("%s method not implemented", functionName)
 }
