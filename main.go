@@ -46,7 +46,7 @@ func main() {
 }
 
 func seedData(r *storage.RedisBackend) {
-	r.Client.Set(context.TODO(), "test", "Nanik_Tolaram", -1)
+	r.Client.Set(context.TODO(), "test", "Just_A_Test", -1)
 }
 
 func logMW(next http.Handler) http.Handler {
