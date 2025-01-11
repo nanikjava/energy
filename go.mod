@@ -4,7 +4,7 @@ go 1.22
 
 require (
 	github.com/brianvoe/gofakeit/v6 v6.28.0
-	github.com/gorilla/mux v1.8.1
+	github.com/go-chi/chi/v5 v5.2.0
 	github.com/redis/go-redis/v9 v9.5.1
 	google.golang.org/appengine v1.6.8
 )
