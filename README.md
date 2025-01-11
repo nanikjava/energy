@@ -6,26 +6,39 @@ NOTE: Use the `.json` version of the OpenAPI spec and not the `.yaml`
 
 ## Building
 
+To regenerate the OpenAPI code remove the `pkg/` directory
+
+### Docker
+
+```
+docker run   --rm \
+-v ${PWD}:/local  --user $(id -u):$(id -g)  openapitools/openapi-generator-cli generate \
+-i /local/cdsenergy.json  \
+-g go-server \
+-o /local/pkg \
+-p serverPort=8888 -p packageName=energyserver  -p router=chi -p onlyInterfaces=false \
+-p sourceFolder=pkg --git-repo-id cdsenergy/v1 --git-user-id nanikjava
+```
+
+```
+rm pkg/.openapi-generator-ignore pkg/Dockerfile  pkg/go.* pkg/main.go pkg/README.md  && rm pkg/.openapi-generator -rf  && rm pkg/api -rf
+```
 ### go-server
 
-When using Docker to run openapi-generator the generated source code are copied as `root` into local drive. Due to this issue decided to just compiled the code locally
+When using Docker to run openapi-generator if the generated source code are copied as `root` into local drive then compiled the code locally
 and run it using `java -jar`
 
 ```
-java -jar /home/nanik/GolandProjects/openapi-generator/modules/openapi-generator-cli/target/openapi-generator-cli.jar generate   \ 
+java -jar <open-api-generator-location>/target/openapi-generator-cli.jar generate   \ 
  -i ./cdsenergy.json     -g go-server  -o $PWD/pkg  \
  -p serverPort=8888 -p packageName=energyserver  -p router=chi -p onlyInterfaces=false \
- -p sourceFolder=pkg --git-repo-id cdsenergy/v1 --git-user-id nanikjava  \
+ -p sourceFolder=pkg --git-repo-id cdsenergy/v1 --git-user-id nanikjava 
 ```
 
 After generation the code remove the following files from `pkg/` folder
 
 ```
-pkg/.openapi-generator-ignore
-pkg/Dockerfile
-pkg/go.mod
-pkg/main.go
-pkg/README.md
+rm pkg/.openapi-generator-ignore pkg/Dockerfile  pkg/go.mod pkg/go.sum pkg/main.go pkg/README.md pkg/api/openapi.yaml && rm pkg/.openapi-generator -rf 
 ```
 
 ### Issues
